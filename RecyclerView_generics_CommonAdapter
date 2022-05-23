@@ -1,0 +1,48 @@
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public abstract class CommonAdapter<T> extends RecyclerView.Adapter<ViewHolder> {
+    private int layoutID;
+    private List<T> data;
+
+    public CommonAdapter(int layoutID) {
+        this.layoutID = layoutID;
+        data = new ArrayList<>();
+    }
+
+
+    @NonNull
+    @Override
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        Context context = parent.getContext();
+        LayoutInflater inflater = LayoutInflater.from(context);
+        View countView = inflater.inflate(layoutID, parent, false);
+        ViewHolder viewHolder = new ViewHolder(countView);
+        return viewHolder;
+    }
+
+    public List<T> getData() {
+        return this.data;
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        T t = data.get(position);
+        bind(holder, t, position);
+    }
+
+    public abstract void bind(ViewHolder holder, T t, int position);
+
+    @Override
+    public int getItemCount() {
+        return this.data.size();
+    }
+}
